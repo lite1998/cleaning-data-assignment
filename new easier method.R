@@ -15,6 +15,10 @@ read_table_X$Activity[read_table_X$ActivityLabels=="5"]<- "STANDING"
 read_table_X$Activity[read_table_X$ActivityLabels=="4"]<- "SITTING"
 read_table_X$Activity[read_table_X$ActivityLabels=="6"]<- "LAYING"
 g<- as.data.frame(read_table_X)
-read_subset_X <-  g[,colnames(g) %like% "-std()"| colnames(g) %like% "-mean()"|colnames(g) %like% "Subject" |colnames(g)== "ActivityLabels"]
-new_tidy_Dataset <- aggregate(. ~ Subject+ActivityLabels, data = read_subset_X, FUN = mean)
-write.table(new_tidy_Dataset,"table.txt")
+read_subset_X <-  g[,colnames(g) %like% "-std()"| colnames(g) %like% "-mean()"|colnames(g) %like% "Subject" |colnames(g)== "Activity"]
+new_tidy_Dataset <- aggregate(. ~ Subject+Activity, data = read_subset_X, FUN = mean)
+new_tidy$Activity <- as.factor(new_tidy$Activity)
+new_tidy$Subject <- as.factor(new_tidy$Subject)
+new_tidy <- data.table(new_tidy_Dataset)
+write.table(new_tidy,"table4.txt")
+
